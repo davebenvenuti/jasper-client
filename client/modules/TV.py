@@ -3,7 +3,7 @@ import re
 import signal
 import os
 
-WORDS = ["ROW", "COO", "CHROMECAST", "EX", "BOX", "NETFLIX"]
+WORDS = ["ROW", "COO", "CHROMECAST", "EX", "BOX", "NETFLIX", "PLAY", "PAUSE"]
 
 def isValid(text):
     return _isRoku(text) or _isXbox(text) or _isChromecast(text) or _isNetflix(text)
@@ -33,8 +33,24 @@ def handle(text, mic, profile):
         _run(['nodejs', '/home/pi/lgcontrol/lgcontrol.js', 'set_input', 'HDMI_1'])
         _run(['nodejs', '/home/pi/roku-control/rokucontrol.js', 'launch', 'netflix'])
 
+    elif _isPlay(text):
+        mic.say("pausing netflix")
+
+        _run(['nodejs', '/home/pi/roku-control/rokucontrol.js', 'send-key', 'play'])
+
+    elif _isPause(text):
+        mic.say("pausing netflix")
+
+        _run(['nodejs', '/home/pi/roku-control/rokucontrol.js', 'send-key', 'pause'])
+
 def _isRoku(text):
     return bool(re.search(r'\brow\b', text, re.IGNORECASE)) and bool(re.search(r'\bcoo\b', text, re.IGNORECASE))
+
+def _isPlay(text):
+    return bool(re.search(r'\bplay\b', text, re.IGNORECASE))
+
+def _isPause(text):
+    return bool(re.search(r'\bpause\b', text, re.IGNORECASE))
 
 def _isXbox(text):
     return bool(re.search(r'\bex\b', text, re.IGNORECASE)) or bool(re.search(r'\bbox\b', text, re.IGNORECASE))
