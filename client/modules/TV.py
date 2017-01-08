@@ -6,7 +6,7 @@ import os
 WORDS = ["ROW", "COO", "CHROMECAST", "EX", "BOX", "NETFLIX", "PLAY", "PAUSE"]
 
 def isValid(text):
-    return _isRoku(text) or _isXbox(text) or _isChromecast(text) or _isNetflix(text)
+    return _isRoku(text) or _isXbox(text) or _isChromecast(text) or _isNetflix(text) or _isPlay(text) or _isPause(text)
 
 def handle(text, mic, profile):
     wakeTV()
